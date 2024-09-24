@@ -6,6 +6,9 @@ import Students from '../pages/Students';
 import CreateStudent from '../pages/CreateStudent';
 import Test from '../pages/Test';
 import ReduxTest from '../pages/ReduxTest';
+import CategoriesRedux from '../pages/CategoriesRedux';
+import ListProducts from '../pages/ListProducts';
+import AddProduct from '../pages/AddProduct';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +32,18 @@ const router = createBrowserRouter([
   {
     path: '/redux',
     element: <ReduxTest />,
+  },
+  {
+    path: '/categories',
+    element: <CategoriesRedux />,
+  },
+  {
+    path: '/products/create',
+    element: <AddProduct />,
+  },
+  {
+    path: '/products/list',
+    element: <ListProducts />,
   },
   {
     path: '/students/create',

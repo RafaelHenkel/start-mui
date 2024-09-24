@@ -1,15 +1,28 @@
 import { configureStore } from '@reduxjs/toolkit';
-import CounterSlice from './models/CounterSlice';
-import CategoriesSlice from './models/CategoriesSlice';
+import storage from 'redux-persist/lib/storage';
+import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
+import rootReducer from './models/rootReducer';
+
+const persistConfig = {
+  key: 'redux-react-ts',
+  version: 1,
+  storage,
+  whitelist: ['products'],
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: {
-    counter: CounterSlice,
-    categories: CategoriesSlice,
-  },
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
+export const persistor = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+
 export type AppDispatch = typeof store.dispatch;
